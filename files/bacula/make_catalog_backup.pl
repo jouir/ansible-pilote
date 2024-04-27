@@ -44,7 +44,7 @@ sub dump_sqlite3
 sub setup_env_pgsql
 {
     my %args = @_;
-    my $username = getpwuid $ENV{'UID'}; 
+    my $username = getpwuid $ENV{'UID'};
     umask(0077);
 
     if ($args{db_address}) {
@@ -93,7 +93,7 @@ sub setup_env_mysql
     my %args = @_;
     umask(0077);
     unlink("$wd/.my.cnf");
-    open(MY, ">$wd/.my.cnf") 
+    open(MY, ">$wd/.my.cnf")
         or die "Can't open $wd/.my.cnf for writing $@";
 
     $args{db_address} = $args{db_address} || "localhost";

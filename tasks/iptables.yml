@@ -21,7 +21,7 @@
     comment: allow ping from the world
 
 - name: Deny input connections by default
-  ansible.builtin.iptables: 
+  ansible.builtin.iptables:
     chain: INPUT
     policy: DROP
 
@@ -60,4 +60,4 @@
     state: latest
 
 - name: Save iptables
-  ansible.builtin.command: netfilter-persistent save  
+  ansible.builtin.command: netfilter-persistent save

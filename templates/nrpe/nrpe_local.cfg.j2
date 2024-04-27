@@ -3,4 +3,3 @@
 {% for command in nrpe_commands | default([]) %}
 command[{{ command['name'] }}]={{ command['line'] }}
 {% endfor %}
-

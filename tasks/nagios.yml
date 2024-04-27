@@ -59,7 +59,7 @@
     dest: /opt/nagios-plugin-bacula
 
 - name: Copy global configuration
-  ansible.builtin.copy: 
+  ansible.builtin.copy:
     src: files/nagios/nagios.cfg
     dest: /etc/nagios4/nagios.cfg
 
