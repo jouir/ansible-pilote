@@ -1,0 +1,48 @@
+---
+- name: Install packages
+  ansible.builtin.apt:
+    name:
+      - python3-serial
+      - python3-paho-mqtt
+    state: latest
+
+- name: Clone arduino-sensors-toolkit sources
+  ansible.builtin.git:
+    repo: https://github.com/jouir/arduino-sensors-toolkit.git
+    dest: /opt/arduino-sensors-toolkit
+
+- name: Add serial2mqtt user
+  ansible.builtin.user:
+    name: serial2mqtt
+    system: yes
+    password: '!'
+    home: /var/lib/serial2mqtt
+    create_home: no
+    append: yes
+    groups:
+      - dialout
+
+- name: Copy serial2mqtt configuration
+  ansible.builtin.template:
+    src: serial2mqtt/serial2mqtt.ini.j2
+    dest: /etc/serial2mqtt.ini
+    mode: '0640'
+    owner: root
+    group: serial2mqtt
+
+- name: Copy serial2mqtt default file
+  ansible.builtin.copy:
+    src: files/serial2mqtt/serial2mqtt.default
+    dest: /etc/default/serial2mqtt
+
+- name: Copy serial2mqtt service unit
+  ansible.builtin.copy:
+    src: files/serial2mqtt/serial2mqtt.service
+    dest: /etc/systemd/system/serial2mqtt.service
+
+- name: Start serial2mqtt service
+  ansible.builtin.systemd:
+    name: serial2mqtt.service
+    daemon_reload: yes
+    state: restarted
+    enabled: yes

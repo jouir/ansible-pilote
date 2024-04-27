@@ -1,0 +1,17 @@
+---
+- name: Remove useless packages
+  ansible.builtin.apt:
+    name:
+      - wpasupplicant
+      - pi-bluetooth
+    state: absent
+
+- name: Define repositories
+  ansible.builtin.copy:
+    src: files/apt/raspi.list
+    dest: /etc/apt/sources.list.d/raspi.list
+
+- name: Update system
+  ansible.builtin.apt:
+    update_cache: 'yes'
+    upgrade: 'yes'

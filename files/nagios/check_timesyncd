@@ -1,0 +1,15 @@
+#!/bin/bash
+/usr/bin/timedatectl status | grep -q "NTP service: active"
+if [ $? -ne 0 ] ; then
+    echo "NTP service not active"
+    exit 1
+fi
+
+/usr/bin/timedatectl status | grep -q "System clock synchronized: yes"
+if [ $? -ne 0 ] ; then
+    echo "System clock not synchronized"
+    exit 1
+fi
+
+echo "NTP is healthy"
+exit 0

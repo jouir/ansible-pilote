@@ -1,0 +1,6 @@
+" Managed by Ansible
+set mouse=r
+set paste
+set tabstop=4
+set shiftwidth=4
+set expandtab

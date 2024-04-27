@@ -1,0 +1,23 @@
+{{ ansible_managed | comment }}
+
+{% for service in nagios_services | default([]) %}
+define service {
+    use                     {{ service['use'] }}
+    hostgroup_name          {{ service['hostgroup_name'] }}
+    service_description     {{ service['service_description'] }}
+    check_command           {{ service['check_command'] }}
+}
+
+{% endfor %}
+
+{% for service_dependency in nagios_service_dependencies | default([]) %}
+define servicedependency {
+    host_name                       {{ service_dependency['host_name'] }}
+    service_description             {{ service_dependency['service_description'] }}
+    dependent_host_name             {{ service_dependency['dependent_host_name'] }}
+    dependent_service_description   {{ service_dependency['dependent_service_description'] }}
+    execution_failure_criteria      {{ service_dependency['execution_failure_criteria'] }}
+    notification_failure_criteria   {{ service_dependency['notification_failure_criteria'] }}
+}
+
+{% endfor %}

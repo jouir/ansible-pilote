@@ -1,0 +1,39 @@
+{{ ansible_managed | comment }}
+
+[[inputs.cpu]]
+  percpu = false
+  totalcpu = true
+  collect_cpu_time = false
+  report_active = false
+
+[[inputs.disk]]
+  mount_points = ["/", "/boot"]
+
+[[inputs.diskio]]
+  devices = ["mmcblk0"]
+
+[[inputs.kernel]]
+[[inputs.mem]]
+[[inputs.processes]]
+[[inputs.swap]]
+[[inputs.system]]
+[[inputs.net]]
+  interfaces = ["eth0", "tun0"]
+
+[[inputs.sensors]]
+
+[[inputs.ping]]
+  urls = ["{{ telegraf_ping_ip }}"]
+  count = 3
+  ping_interval = 1.0
+  timeout = 1.0
+
+[[inputs.mqtt_consumer]]
+  servers = {{ telegraf_mqtt_consumer_servers }}
+  topics = {{ telegraf_mqtt_consumer_topics }}
+  persistent_session = true
+  client_id = "telegraf"
+  data_format = "value"
+  data_type = "float"
+  username = "{{ telegraf_mqtt_consumer_username }}"
+  password = "{{ telegraf_mqtt_consumer_password }}"

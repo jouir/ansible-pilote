@@ -1,0 +1,13 @@
+---
+# TODO
+- name: copy easyrsa sources to /root
+  copy:
+    src: files/easyrsa/EasyRSA-v3.0.6
+    dest: /root/
+    mode: preserve
+
+- name: add easyrsa binary to path
+  file:
+    src: /root/EasyRSA-v3.0.6/easyrsa
+    dest: /usr/local/sbin/easyrsa
+    state: link

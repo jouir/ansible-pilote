@@ -1,0 +1,35 @@
+{{ ansible_managed | comment }}
+
+{% for contact in nagios_contacts | default([]) %}
+define contact {
+    contact_name                    {{ contact['contact_name'] }}
+    use                             {{ contact['use'] }}
+    alias                           {{ contact['alias'] }}
+    email                           {{ contact['email'] }}
+{% if 'pager' in contact %}
+    pager                           {{ contact['pager'] }}
+{% endif %}
+{% if 'host_notifications_enabled' in contact %}
+    host_notifications_enabled      {{ contact['host_notifications_enabled'] }}
+{% endif %}
+{% if 'service_notifications_enabled' in contact %}
+    service_notifications_enabled   {{ contact['service_notifications_enabled'] }}
+{% endif %}
+{% if 'host_notification_commands' in contact %}
+    host_notification_commands      {{ contact['host_notification_commands'] }}
+{% endif %}
+{% if 'service_notification_commands' in contact %}
+    service_notification_commands   {{ contact['service_notification_commands'] }}
+{% endif %}
+}
+
+{% endfor %}
+
+{% for contact_group in nagios_contact_groups | default([]) %}
+define contactgroup {
+    contactgroup_name   {{ contact_group['contactgroup_name'] }}
+    alias               {{ contact_group['alias'] }}
+    members             {{ contact_group['members'] | sort | join(',') }}
+}
+
+{% endfor %}

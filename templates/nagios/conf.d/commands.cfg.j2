@@ -1,0 +1,9 @@
+{{ ansible_managed | comment }}
+
+{% for command in nagios_commands | default([]) %}
+define command {
+    command_name    {{ command['command_name'] }}
+    command_line    {{ command['command_line'] }}
+}
+
+{% endfor %}

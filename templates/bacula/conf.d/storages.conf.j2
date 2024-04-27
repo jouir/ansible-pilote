@@ -1,0 +1,12 @@
+{{ ansible_managed | comment }}
+
+{% for storage in bacula_storages | default([]) %}
+Storage {
+  Name = {{ storage['name'] }}
+  Address = {{ storage['address'] }}
+  Password = "{{ storage['password'] }}"
+  Device = {{ storage['device'] }}
+  Media Type = {{ storage['media_type'] }}
+}
+
+{% endfor %}

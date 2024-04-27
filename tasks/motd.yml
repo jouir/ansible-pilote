@@ -1,0 +1,15 @@
+---
+- name: Install figlet
+  ansible.builtin.package:
+    name: figlet
+    state: present
+
+- name: Run figlet
+  ansible.builtin.shell:
+    cmd: "hostname | figlet -f /usr/share/figlet/smslant.flf"
+  register: _motd
+
+- name: Create motd
+  ansible.builtin.copy:
+    dest: /etc/motd
+    content: "{{ _motd.stdout }}\n"

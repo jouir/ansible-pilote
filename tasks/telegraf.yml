@@ -1,0 +1,31 @@
+---
+- name: Configure telegraf repository
+  ansible.builtin.template:
+    src: telegraf/influxdata.list.j2
+    dest: /etc/apt/sources.list.d/influxdata.list
+
+- name: Download influxdata APT key
+  ansible.builtin.apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
+
+- name: Install telegraf and dependencies
+  ansible.builtin.apt:
+    name:
+      - telegraf
+      - lm-sensors
+    update_cache: true
+    state: latest
+
+- name: Generate telegraf configurations
+  ansible.builtin.template:
+    src: "telegraf/{{ item }}.conf.j2"
+    dest: "/etc/telegraf/telegraf.d/{{ item }}.conf"
+  loop:
+    - inputs
+    - output
+
+- name: Restart telegraf service
+  ansible.builtin.service:
+    name: telegraf
+    state: restarted

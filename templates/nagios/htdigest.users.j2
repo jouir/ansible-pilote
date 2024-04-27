@@ -1,0 +1,3 @@
+{% for user in nagios_htdigest_users | default([]) %}
+{{ user['name'] }}:{{ user['hash'] }}
+{% endfor %}

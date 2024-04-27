@@ -1,0 +1,13 @@
+---
+- name: Install vim packages
+  ansible.builtin.apt:
+    name: vim
+    state: present
+
+- name: Copy configurations
+  ansible.builtin.copy:
+    src: files/vim/vimrc
+    dest: "{{ '/root/.vimrc' if item['name'] == 'root' else '/home/' + item['name'] + '/.vimrc' }}"
+  loop: "{{ users }}"
+  loop_control:
+    label: "{{ item['name'] }}"

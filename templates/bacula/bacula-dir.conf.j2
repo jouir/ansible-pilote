@@ -1,0 +1,26 @@
+{{ ansible_managed | comment }}
+
+Director {
+  Name = {{ bacula_director_name }}
+  DIRport = 9101
+  QueryFile = "/etc/bacula/scripts/query.sql"
+  WorkingDirectory = "/var/lib/bacula"
+  PidDirectory = "/run/bacula"
+  Maximum Concurrent Jobs = 20
+  Password = "{{ bacula_director_password }}"
+  Messages = Daemon
+  DirAddress = {{ bacula_director_address | default('127.0.0.1') }}
+}
+
+Catalog {
+  Name = {{ bacula_catalog_name }}
+  dbname = "bacula"; dbuser = ""; dbpassword = ""
+}
+
+@/etc/bacula/conf.d/jobs.conf
+@/etc/bacula/conf.d/filesets.conf
+@/etc/bacula/conf.d/schedules.conf
+@/etc/bacula/conf.d/clients.conf
+@/etc/bacula/conf.d/messages.conf
+@/etc/bacula/conf.d/pools.conf
+@/etc/bacula/conf.d/storages.conf

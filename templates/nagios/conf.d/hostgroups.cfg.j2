@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+
+{% for hostgroup in nagios_hostgroups | default([]) %}
+define hostgroup {
+    hostgroup_name  {{ hostgroup['hostgroup_name'] }}
+    alias           {{ hostgroup['alias'] }}
+    members         {{ hostgroup['members'] | sort | join(',') }}
+}
+
+{% endfor %}

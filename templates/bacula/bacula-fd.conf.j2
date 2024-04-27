@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+
+Director {
+  Name = {{ bacula_director_name }}
+  Password = "{{ bacula_filedaemon_password }}"
+}
+
+FileDaemon {
+  Name = {{ bacula_filedaemon_name }}
+  FDport = 9102
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = {{ bacula_filedaemon_address | default('127.0.0.1') }}
+}
+
+Messages {
+  Name = Standard
+  director = {{ bacula_director_name }} = all, !skipped, !restored
+}

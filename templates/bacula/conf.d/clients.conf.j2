@@ -1,0 +1,15 @@
+{{ ansible_managed | comment }}
+
+{% for client in bacula_clients %}
+Client {
+  Name = {{ client['name'] }}
+  Address = {{ client['address'] }}
+  FDPort = 9102
+  Catalog = {{ client['catalog'] }}
+  Password = "{{ client['password'] }}"
+  File Retention = {{ client['file_retention'] }}
+  Job Retention = {{ client['job_retention'] }}
+  AutoPrune = {{ client['autoprune'] }}
+}
+
+{% endfor %}

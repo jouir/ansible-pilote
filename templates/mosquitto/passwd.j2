@@ -1,0 +1,3 @@
+{% for credentials in mosquitto_passwords | default([]) %}
+{{ credentials['user'] }}:{{ credentials['hash'] }}
+{% endfor %}

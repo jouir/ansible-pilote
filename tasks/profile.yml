@@ -1,0 +1,8 @@
+---
+- name: Remove raspberry pi profiles
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/profile.d/sshpwd.sh
+    - /etc/profile.d/wifi-check.sh

@@ -1,0 +1,5 @@
+---
+- name: Upgrade systems
+  hosts: all
+  tasks:
+    - include_tasks: tasks/apt-upgrade.yml

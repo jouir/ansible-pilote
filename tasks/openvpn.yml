@@ -1,0 +1,38 @@
+---
+- name: Install OpenVPN
+  ansible.builtin.apt:
+    name: openvpn
+    state: latest
+
+- name: Deploy OpenVPN configuration
+  ansible.builtin.template:
+    src: openvpn/client.conf.j2
+    dest: /etc/openvpn/client.conf
+
+- name: Deploy OpenVPN CA cert
+  ansible.builtin.copy:
+    content: "{{ openvpn_ca }}"
+    dest: /etc/openvpn/ca.crt
+
+- name: Deploy OpenVPN TLS auth
+  ansible.builtin.copy:
+    content: "{{ openvpn_ta }}"
+    dest: /etc/openvpn/ta.key
+
+- name: Deploy OpenVPN client cert
+  ansible.builtin.copy:
+    content: "{{ openvpn_cert }}"
+    dest: /etc/openvpn/client.crt
+    mode: '0644'
+
+- name: Deploy OpenVPN client key
+  ansible.builtin.copy:
+    content: "{{ openvpn_key }}"
+    dest: /etc/openvpn/client.key
+    mode: '0600'
+
+- name: Start OpenVPN
+  ansible.builtin.systemd:
+    name: "openvpn@client.service"
+    state: started
+    enabled: true

@@ -1,0 +1,11 @@
+{{ ansible_managed | comment }}
+
+{% for schedule in bacula_schedules | default([]) %}
+Schedule {
+  Name  = {{ schedule['name'] }}
+{% for run in schedule['runs'] %}
+  Run   = {% for k, v in run.get('job_overrides', {}).items() %}{{ k }}={{ v }} {% endfor %} {{ run['datetime'] }}
+{% endfor %}
+}
+
+{% endfor %}

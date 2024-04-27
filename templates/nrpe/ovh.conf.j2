@@ -1,0 +1,8 @@
+{{ ansible_managed | comment }}
+[default]
+endpoint={{ ovh_endpoint }}
+
+[{{ ovh_endpoint }}]
+application_key={{ ovh_application_key }}
+application_secret={{ ovh_application_secret }}
+consumer_key={{ ovh_consumer_key }}

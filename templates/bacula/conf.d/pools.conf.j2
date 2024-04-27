@@ -1,0 +1,16 @@
+{{ ansible_managed | comment }}
+
+{% for pool in bacula_pools | default([]) %}
+Pool {
+  Name                  = {{ pool['name'] }}
+  Pool Type             = {{ pool['pool_type'] }}
+  Recycle               = {{ pool['recycle'] }}
+  AutoPrune             = {{ pool['auto_prune'] }}
+  Volume Retention      = {{ pool['volume_retention'] }}
+  Storage               = {{ pool['storage'] }}
+  Maximum Volume Bytes  = {{ pool['maximum_volume_bytes'] }}
+  Maximum Volumes       = {{ pool['maximum_volumes'] }}
+  LabelFormat           = "{{ pool['labelformat'] }}"
+}
+
+{% endfor %}

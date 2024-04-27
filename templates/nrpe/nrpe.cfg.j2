@@ -1,0 +1,14 @@
+{{ ansible_managed | comment }}
+
+log_facility=daemon
+debug=0
+pid_file=/var/run/nagios/nrpe.pid
+server_port=5666
+nrpe_user=nagios
+nrpe_group=nagios
+allowed_hosts={{ nrpe_allowed_hosts | sort | join(',') }}
+dont_blame_nrpe=0
+allow_bash_command_substitution=0
+command_timeout=60
+connection_timeout=300
+include=/etc/nagios/nrpe_local.cfg

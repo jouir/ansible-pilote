@@ -1,0 +1,31 @@
+{{ ansible_managed | comment }}
+
+{% for template in nagios_host_templates | default([]) %}
+define host {
+    register                0 ; template
+    name                    {{ template['name'] }}
+    use                     {{ template['use'] }}
+    check_command           {{ template['check_command'] }}
+    contact_groups          {{ template['contact_groups'] }}
+    notification_options    {{ template['notification_options'] | sort | join(',') }}
+    check_interval          {{ template['check_interval'] }}
+    retry_interval          {{ template['retry_interval'] }}
+    max_check_attempts      {{ template['max_check_attempts'] }}
+    notification_interval   {{ template['notification_interval'] }}
+}
+
+{% endfor %}
+
+{% for template in nagios_service_templates | default([]) %}
+define service {
+    register                0 ; template
+    name                    {{ template['name'] }}
+    use                     {{ template['use'] }}
+    contact_groups          {{ template['contact_groups'] }}
+    check_interval          {{ template['check_interval'] }}
+    retry_interval          {{ template['retry_interval'] }}
+    max_check_attempts      {{ template['max_check_attempts'] }}
+    notification_interval   {{ template['notification_interval'] }}
+}
+
+{% endfor %}

@@ -1,0 +1,5 @@
+*.retry
+manual.yml
+inventory/hosts
+group_vars/pilote.yml
+files/easyrsa/

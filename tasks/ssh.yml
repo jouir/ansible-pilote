@@ -1,0 +1,38 @@
+---
+- name: Install OpenSSH
+  ansible.builtin.apt:
+    name: openssh-server
+    state: latest
+
+- name: Allow authorized keys
+  ansible.posix.authorized_key:
+    user: "{{ item['user'] }}"
+    key: "{{ item['key'] }}"
+    comment: "{{ item['comment'] | default(omit) }}"
+  loop: "{{ ssh_authorized_keys }}"
+
+- name: Copy configuration file
+  ansible.builtin.copy:
+    src: files/ssh/sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Reload and enable SSH service
+  service:
+    name: ssh
+    state: reloaded
+    enabled: true
+
+- name: Allow SSH network flows
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    source: "{{ item }}"
+    destination_port: "22"
+    jump: ACCEPT
+    comment: allow ssh
+  loop:
+    - "{{ openvpn_subnet }}"
+    - "{{ local_subnet }}"

@@ -1,0 +1,11 @@
+{{ ansible_managed | comment }}
+
+{% for host in nagios_hosts | default([]) %}
+define host {
+    use         {{ host['use'] }}
+    host_name   {{ host['host_name'] }}
+    alias       {{ host['alias'] }}
+    address     {{ host['address'] }}
+}
+
+{% endfor %}

@@ -1,0 +1,8 @@
+{{ ansible_managed | comment }}
+
+Director {
+  Name = {{ bacula_director_name }}
+  DIRport = 9101
+  address = 127.0.0.1
+  Password = "{{ bacula_director_password }}"
+}

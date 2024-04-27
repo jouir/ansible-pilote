@@ -1,0 +1,66 @@
+---
+- name: Install NRPE
+  ansible.builtin.apt:
+    name:
+      - nagios-nrpe-server
+      - bc
+      - python3-pip
+
+- name: Copy NRPE global configuration
+  ansible.builtin.template:
+    src: nrpe/nrpe.cfg.j2
+    dest: /etc/nagios/nrpe.cfg
+
+- name: Generate NRPE local configuration
+  ansible.builtin.template:
+    src: nrpe/nrpe_local.cfg.j2
+    dest: /etc/nagios/nrpe_local.cfg
+
+- name: Manage daemon settings
+  ansible.builtin.template:
+    src: nrpe/nagios-nrpe-server.j2
+    dest: /etc/default/nagios-nrpe-server
+
+- name: Clone check-mqtt source code
+  ansible.builtin.git:
+    repo: https://github.com/jpmens/check-mqtt.git
+    dest: /opt/check-mqtt
+
+- name: Clone check_ssl_cert source code
+  ansible.builtin.git:
+    repo: https://github.com/matteocorti/check_ssl_cert.git
+    dest: /opt/check_ssl_cert
+
+- name: Clone check_ovhcloud source code
+  ansible.builtin.git:
+    repo: https://github.com/jouir/check_ovhcloud.git
+    dest: /opt/check_ovhcloud
+
+- name: Configure check_ovhcloud
+  ansible.builtin.template:
+    src: nrpe/ovh.conf.j2
+    dest: /etc/ovh.conf
+    owner: root
+    group: nagios
+    mode: "0640"
+
+- name: Install check_ovhcloud dependencies
+  ansible.builtin.pip:
+    requirements: /opt/check_ovhcloud/requirements.txt
+    extra_args: "--user"
+  become: true
+  become_user: nagios
+
+- name: Restart NRPE service
+  ansible.builtin.service:
+    name: nagios-nrpe-server
+    state: restarted
+
+- name: Allow NRPE from vpn
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    source: "{{ openvpn_subnet }}"
+    destination_port: "5666"
+    jump: ACCEPT
+    comment: allow nrpe from vpn

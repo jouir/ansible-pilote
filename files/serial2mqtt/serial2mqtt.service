@@ -1,0 +1,18 @@
+# Managed by Ansible
+
+[Unit]
+Description=Read serial port and send sensors measurements to MQTT broker
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=serial2mqtt
+Group=serial2mqtt
+EnvironmentFile=-/etc/default/serial2mqtt
+ExecStart=/opt/arduino-sensors-toolkit/serial2mqtt.py $DAEMON_OPTS
+KillMode=process
+TimeoutSec=30
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,60 @@
+{{ ansible_managed | comment }}
+
+JobDefs {
+  Name      = BackupDefaults
+  Type      = Backup
+  Storage   = {{ bacula_storage_name }}
+  Schedule  = DefaultSchedule
+  Priority  = 10
+  Messages  = Standard
+  Pool      = FullFile
+  Full          Backup Pool = FullFile
+  Differential  Backup Pool = DiffFile
+  Incremental   Backup Pool = IncrFile
+}
+
+{% for job in bacula_jobs %}
+Job {
+  Name                = {{ job['name'] }}
+  JobDefs             = BackupDefaults
+  Client              = {{ job['client'] }}
+  FileSet             = {{ job['fileset'] }}
+{% if 'priority' in job %}
+  Priority            = {{ job['priority'] }}
+{% endif %}
+{% if 'level' in job %}
+  Level               = {{ job['level'] }}
+{% endif %}
+{% if 'schedule' in job %}
+  Schedule            = {{ job['schedule'] }}
+{% endif %}
+{% if 'run_before_job' in job %}
+  RunBeforeJob        = "{{ job['run_before_job'] }}"
+{% endif %}
+{% if 'run_after_job' in job %}
+  RunAfterJob         = "{{ job['run_after_job'] }}"
+{% endif %}
+{% if 'client_run_before_job' in job %}
+  ClientRunBeforeJob  = "{{ job['client_run_before_job'] }}"
+{% endif %}
+{% if 'client_run_after_job' in job %}
+  ClientRunAfterJob   = "{{ job['client_run_after_job'] }}"
+{% endif %}
+{% if 'pool' in job %}
+  Pool                = {{ job['pool'] }}
+{% endif %}
+{% if 'storage' in job %}
+  Storage             = {{ job['storage'] }}
+{% endif %}
+{% if 'messages' in job %}
+  Messages            = {{ job['messages'] }}
+{% endif %}
+{% if 'where' in job %}
+  Where               = {{ job['where'] }}
+{% endif %}
+{% if 'type' in job %}
+  Type                = {{ job['type'] }}
+{% endif %}
+}
+
+{% endfor %}

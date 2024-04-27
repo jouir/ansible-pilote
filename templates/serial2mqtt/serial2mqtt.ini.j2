@@ -1,0 +1,12 @@
+{{ ansible_managed | comment }}
+
+[mqtt]
+host = {{ serial2mqtt_host | default('localhost') }}
+port = {{ serial2mqtt_port | default(1883) }}
+client_id = serial2mqtt
+topic_prefix = {{ serial2mqtt_topic_prefix }}
+username = {{ serial2mqtt_username }}
+password = {{ serial2mqtt_password }}
+
+[serial]
+interface = {{ serial2mqtt_interface | default('/dev/ttyACM0') }}

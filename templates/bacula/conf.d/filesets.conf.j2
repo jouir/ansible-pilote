@@ -1,0 +1,32 @@
+{{ ansible_managed | comment }}
+
+{% for fileset in bacula_filesets %}
+FileSet {
+  Name = {{ fileset['name'] }}
+{% if 'include' in fileset %}
+  Include {
+{% if 'options' in fileset['include'] %}
+    Options {
+{% if 'signature' in fileset['include']['options'] %}
+      signature = {{ fileset['include']['options']['signature'] }}
+{% endif %}
+{% if 'compression' in fileset['include']['options'] %}
+      compression = {{ fileset['include']['options']['compression'] }}
+{% endif %}
+    }
+{% endif %}
+{% for file in fileset['include']['files'] | default([]) | sort %}
+    File = "{{ file }}"
+{% endfor %}
+  }
+{% endif %}
+{% if 'exclude' in fileset %}
+  Exclude {
+{% for file in fileset['exclude']['files'] | default([]) | sort %}
+    File = "{{ file }}"
+{% endfor %}
+  }
+{% endif %}
+}
+
+{% endfor %}

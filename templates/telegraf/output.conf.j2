@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+
+[[outputs.influxdb]]
+  urls = {{ telegraf_influxdb_urls }}
+  database = "{{ telegraf_influxdb_database }}"
+  skip_database_creation = true
+  username = "{{ telegraf_influxdb_username }}"
+  password = "{{ telegraf_influxdb_password }}"
+  insecure_skip_verify = true
+  content_encoding = "gzip"
