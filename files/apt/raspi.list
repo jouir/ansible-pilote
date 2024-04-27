@@ -1,3 +1,0 @@
-# Managed by Ansible
-deb http://mirror.unix-solutions.be/raspbian/raspbian/ buster main
-deb http://mirror.nl.leaseweb.net/raspbian/raspbian/ buster main
