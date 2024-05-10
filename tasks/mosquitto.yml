@@ -3,12 +3,12 @@
   ansible.builtin.apt:
     name:
       - mosquitto
-    state: latest
 
 - name: Configure mosquitto
   ansible.builtin.copy:
     src: files/mosquitto/conf.d
     dest: /etc/mosquitto
+    mode: "0644"
 
 - name: Copy mosquitto password
   ansible.builtin.template:

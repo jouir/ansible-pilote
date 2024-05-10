@@ -5,4 +5,4 @@
     value: '1'
     state: present
     sysctl_file: /etc/sysctl.d/70-disable-ipv6.conf
-    reload: yes
+    reload: true

@@ -1,0 +1,9 @@
+---
+exclude_paths:
+  - .cache/
+  - .github/
+  - .pre-commit-config.yaml
+  - group_vars/pilote.yml
+
+skip_list:
+  - latest

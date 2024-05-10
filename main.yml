@@ -1,23 +1,55 @@
 ---
-- hosts: pilote
+- name: Configure pilote
+  hosts: pilote
   gather_facts: true
   tasks:
-    - ansible.builtin.include_tasks: tasks/sysctl.yml
-    - ansible.builtin.include_tasks: tasks/apt.yml
-    - ansible.builtin.include_tasks: tasks/users.yml
-    - ansible.builtin.include_tasks: tasks/profile.yml
-    - ansible.builtin.include_tasks: tasks/hostname.yml
-    - ansible.builtin.include_tasks: tasks/motd.yml
-    - ansible.builtin.include_tasks: tasks/time.yml
-    - ansible.builtin.include_tasks: tasks/ssh.yml
-    - ansible.builtin.include_tasks: tasks/openvpn.yml
-    - ansible.builtin.include_tasks: tasks/nagios.yml
-    - ansible.builtin.include_tasks: tasks/nrpe.yml
-    - ansible.builtin.include_tasks: tasks/mosquitto.yml
-    - ansible.builtin.include_tasks: tasks/serial2mqtt.yml
-    - ansible.builtin.include_tasks: tasks/telegraf.yml
-    - ansible.builtin.include_tasks: tasks/bacula.yml
-    - ansible.builtin.include_tasks: tasks/iptables.yml
-    # TODO
-    #- ansible.builtin.include_tasks: tasks/easyrsa.yml
-    - ansible.builtin.include_tasks: tasks/vim.yml
+    - name: Configure sysctl
+      ansible.builtin.include_tasks: tasks/sysctl.yml
+
+    - name: Configure apt
+      ansible.builtin.include_tasks: tasks/apt.yml
+
+    - name: Configure users
+      ansible.builtin.include_tasks: tasks/users.yml
+
+    - name: Configure profile
+      ansible.builtin.include_tasks: tasks/profile.yml
+
+    - name: Configure hostname
+      ansible.builtin.include_tasks: tasks/hostname.yml
+
+    - name: Configure motd
+      ansible.builtin.include_tasks: tasks/motd.yml
+
+    - name: Configure time
+      ansible.builtin.include_tasks: tasks/time.yml
+
+    - name: Configure SSH
+      ansible.builtin.include_tasks: tasks/ssh.yml
+
+    - name: Configure OpenVPN
+      ansible.builtin.include_tasks: tasks/openvpn.yml
+
+    - name: Configure Nagios
+      ansible.builtin.include_tasks: tasks/nagios.yml
+
+    - name: Configure NRPE
+      ansible.builtin.include_tasks: tasks/nrpe.yml
+
+    - name: Configure Mosquitto
+      ansible.builtin.include_tasks: tasks/mosquitto.yml
+
+    - name: Configure serial2mqtt
+      ansible.builtin.include_tasks: tasks/serial2mqtt.yml
+
+    - name: Configure telegraf
+      ansible.builtin.include_tasks: tasks/telegraf.yml
+
+    - name: Configure bacula
+      ansible.builtin.include_tasks: tasks/bacula.yml
+
+    - name: Configure iptables
+      ansible.builtin.include_tasks: tasks/iptables.yml
+
+    - name: Configure vim
+      ansible.builtin.include_tasks: tasks/vim.yml

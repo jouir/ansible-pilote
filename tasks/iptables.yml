@@ -57,7 +57,7 @@
     name:
       - netfilter-persistent
       - iptables-persistent
-    state: latest
 
 - name: Save iptables
   ansible.builtin.command: netfilter-persistent save
+  changed_when: true

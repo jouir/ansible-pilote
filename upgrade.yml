@@ -2,4 +2,5 @@
 - name: Upgrade systems
   hosts: all
   tasks:
-    - include_tasks: tasks/apt-upgrade.yml
+    - name: Run apt upgrade
+      ansible.builtin.include_tasks: tasks/apt-upgrade.yml

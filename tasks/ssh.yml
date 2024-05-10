@@ -2,7 +2,6 @@
 - name: Install OpenSSH
   ansible.builtin.apt:
     name: openssh-server
-    state: latest
 
 - name: Allow authorized keys
   ansible.posix.authorized_key:
@@ -20,7 +19,7 @@
     mode: '0644'
 
 - name: Reload and enable SSH service
-  service:
+  ansible.builtin.service:
     name: ssh
     state: reloaded
     enabled: true

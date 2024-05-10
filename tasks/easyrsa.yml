@@ -1,13 +1,13 @@
 ---
 # TODO
-- name: copy easyrsa sources to /root
-  copy:
+- name: Copy easyrsa sources to /root
+  ansible.builtin.copy:
     src: files/easyrsa/EasyRSA-v3.0.6
     dest: /root/
     mode: preserve
 
-- name: add easyrsa binary to path
-  file:
+- name: Add easyrsa binary to path
+  ansible.builtin.file:
     src: /root/EasyRSA-v3.0.6/easyrsa
     dest: /usr/local/sbin/easyrsa
     state: link

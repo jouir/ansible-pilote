@@ -8,6 +8,7 @@
   ansible.builtin.copy:
     src: files/vim/vimrc
     dest: "{{ '/root/.vimrc' if item['name'] == 'root' else '/home/' + item['name'] + '/.vimrc' }}"
+    mode: '0644'
   loop: "{{ users }}"
   loop_control:
     label: "{{ item['name'] }}"

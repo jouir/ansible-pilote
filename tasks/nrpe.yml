@@ -10,16 +10,19 @@
   ansible.builtin.template:
     src: nrpe/nrpe.cfg.j2
     dest: /etc/nagios/nrpe.cfg
+    mode: "0644"
 
 - name: Generate NRPE local configuration
   ansible.builtin.template:
     src: nrpe/nrpe_local.cfg.j2
     dest: /etc/nagios/nrpe_local.cfg
+    mode: "0644"
 
 - name: Manage daemon settings
   ansible.builtin.template:
     src: nrpe/nagios-nrpe-server.j2
     dest: /etc/default/nagios-nrpe-server
+    mode: "0644"
 
 - name: Clone check-mqtt source code
   ansible.builtin.git:

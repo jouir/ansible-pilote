@@ -7,7 +7,6 @@
       - bacula-fd
       - bacula-sd
       - bacula-console
-    state: latest
 
 - name: Configure database
   ansible.builtin.copy:
@@ -61,6 +60,7 @@
   ansible.builtin.template:
     src: "bacula/conf.d/{{ item }}.conf.j2"
     dest: "/etc/bacula/conf.d/{{ item }}.conf"
+    mode: "0644"
   loop:
     - clients
     - filesets

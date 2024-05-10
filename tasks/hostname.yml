@@ -1,9 +1,10 @@
 ---
 - name: Setup hostname
-  hostname:
+  ansible.builtin.hostname:
     name: "{{ hostname }}"
 
 - name: Manage /etc/hosts
   ansible.builtin.template:
     src: hostname/hosts.j2
     dest: /etc/hosts
+    mode: "0644"

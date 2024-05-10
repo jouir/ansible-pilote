@@ -9,12 +9,12 @@
       - python3-requests
       - python3-jsonschema
       - python-pexpect
-    state: latest
 
 - name: Generate nagios configurations
   ansible.builtin.template:
     src: "nagios/conf.d/{{ item }}.cfg.j2"
     dest: "/etc/nagios4/conf.d/{{ item }}.cfg"
+    mode: "0644"
   loop:
     - commands
     - hosts
@@ -26,6 +26,7 @@
   ansible.builtin.template:
     src: nagios/contacts.cfg.j2
     dest: /etc/nagios4/objects/contacts.cfg
+    mode: "0644"
 
 - name: Copy check_timesyncd
   ansible.builtin.copy:
@@ -47,7 +48,7 @@
 
 - name: Configure notify-by-telegram
   ansible.builtin.copy:
-    content: "{{ {'auth_key': nagios_telegram_auth_key, 'chat_id': nagios_telegram_chat_id } | to_json }}"
+    content: "{{ {'auth_key': nagios_telegram_auth_key, 'chat_id': nagios_telegram_chat_id} | to_json }}"
     dest: /etc/nagios4/telegram.json
     owner: root
     group: nagios
@@ -62,11 +63,13 @@
   ansible.builtin.copy:
     src: files/nagios/nagios.cfg
     dest: /etc/nagios4/nagios.cfg
+    mode: "0644"
 
 - name: Copy CGI configuration
   ansible.builtin.copy:
     src: files/nagios/cgi.cfg
     dest: /etc/nagios4/cgi.cfg
+  mode: "0644"
 
 - name: Reload nagios
   ansible.builtin.service:
@@ -77,16 +80,19 @@
   ansible.builtin.template:
     src: nagios/htdigest.users.j2
     dest: /etc/nagios4/htdigest.users
+    mode: "0644"
 
 - name: Secure Apache
-  copy:
+  ansible.builtin.copy:
     src: files/nagios/security.conf
     dest: /etc/apache2/conf-available/security.conf
+    mode: "0644"
 
 - name: Configure vhost for the web interface
   ansible.builtin.copy:
     src: files/nagios/apache2.conf
     dest: /etc/nagios4/apache2.conf
+    mode: "0644"
 
 - name: Enable Apache modules
   ansible.builtin.command:
@@ -94,6 +100,7 @@
   loop:
     - auth_digest
     - headers
+  changed_when: true
 
 - name: Restart apache
   ansible.builtin.service:
@@ -101,7 +108,7 @@
     state: restarted
 
 - name: Allow HTTP from vpn
-  iptables:
+  ansible.builtin.iptables:
     chain: INPUT
     protocol: tcp
     source: "{{ openvpn_subnet }}"
