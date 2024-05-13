@@ -1,3 +1,3 @@
 # TODO
 
-* EasyRSA tasks
+- EasyRSA: Protect CA with a passphrase

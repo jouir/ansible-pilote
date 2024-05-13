@@ -1,0 +1,10 @@
+---
+- name: Renew client RSA certificates
+  hosts: pilote
+  gather_facts: false
+  tasks:
+    - name: Delete client certificates
+      ansible.builtin.include_tasks: tasks/easyrsa-certs-delete.yml
+
+    - name: Configure EasyRSA
+      ansible.builtin.include_tasks: tasks/easyrsa.yml

@@ -291,6 +291,27 @@ bacula_storages:
     media_type: File
 ```
 
+## easyrsa_ca_dir
+
+Path to the CA directory to create.
+
+```yaml
+easyrsa_ca_dir: /var/lib/easyrsa
+```
+
+## easyrsa_clients
+
+List of client hostnames that will have RSA certificates.
+
+```yaml
+easyrsa_clients:
+  - pilote
+  - storage1
+  - storage2
+  - storage3
+  - vps
+```
+
 ## hostname
 
 Name of the remote host.

@@ -1,13 +1,62 @@
 ---
-# TODO
-- name: Copy easyrsa sources to /root
-  ansible.builtin.copy:
-    src: files/easyrsa/EasyRSA-v3.0.6
-    dest: /root/
-    mode: preserve
+- name: Install EasyRSA
+  ansible.builtin.package:
+    name: easy-rsa
 
 - name: Add easyrsa binary to path
   ansible.builtin.file:
-    src: /root/EasyRSA-v3.0.6/easyrsa
+    src: /usr/share/easy-rsa/easyrsa
     dest: /usr/local/sbin/easyrsa
     state: link
+
+- name: Create CA directory
+  ansible.builtin.command:
+    cmd: "make-cadir {{ easyrsa_ca_dir }}"
+    creates: "{{ easyrsa_ca_dir }}"
+
+- name: Init PKI
+  ansible.builtin.command:
+    cmd: easyrsa init-pki
+    chdir: "{{ easyrsa_ca_dir }}"
+    creates: "{{ easyrsa_ca_dir }}/pki"
+  environment:
+    EASYRSA_BATCH: "1"
+
+- name: Create symlinks
+  ansible.builtin.file:
+    src: "{{ easyrsa_ca_dir }}/{{ item }}"
+    dest: "{{ easyrsa_ca_dir }}/pki/{{ item }}"
+    state: link
+  loop:
+    - x509-types
+    - openssl-easyrsa.cnf
+
+- name: Create random file
+  ansible.builtin.command:
+    cmd: "openssl rand -writerand {{ easyrsa_ca_dir }}/pki/.rnd"
+    creates: "{{ easyrsa_ca_dir }}/pki/.rnd"
+
+- name: Build CA
+  ansible.builtin.command:
+    cmd: easyrsa build-ca nopass
+    chdir: "{{ easyrsa_ca_dir }}"
+    creates: "{{ easyrsa_ca_dir }}/pki/ca.crt"
+  environment:
+    EASYRSA_BATCH: "1"
+
+- name: Generate DH parameters
+  ansible.builtin.command:
+    cmd: easyrsa gen-dh
+    chdir: "{{ easyrsa_ca_dir }}"
+    creates: "{{ easyrsa_ca_dir }}/pki/dh.pem"
+  environment:
+    EASYRSA_BATCH: "1"
+
+- name: Generate client certificates
+  ansible.builtin.command:
+    cmd: "easyrsa build-client-full {{ item }} nopass"
+    chdir: "{{ easyrsa_ca_dir }}"
+    creates: "{{ easyrsa_ca_dir }}/pki/private/{{ item }}.key"
+  environment:
+    EASYRSA_BATCH: "1"
+  loop: "{{ easyrsa_clients | default([]) }}"

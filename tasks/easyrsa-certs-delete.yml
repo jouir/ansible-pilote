@@ -1,0 +1,9 @@
+---
+- name: Delete EasyRSA certificates
+  ansible.builtin.file:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ easyrsa_ca_dir }}/pki/reqs/{{ client_name }}.req"
+    - "{{ easyrsa_ca_dir }}/pki/private/{{ client_name }}.key"
+    - "{{ easyrsa_ca_dir }}/pki/issued/{{ client_name }}.crt"

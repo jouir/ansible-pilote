@@ -53,3 +53,6 @@
 
     - name: Configure vim
       ansible.builtin.include_tasks: tasks/vim.yml
+
+    - name: Configure EasyRSA
+      ansible.builtin.include_tasks: tasks/easyrsa.yml
