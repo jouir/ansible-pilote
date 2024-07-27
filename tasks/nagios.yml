@@ -69,7 +69,7 @@
   ansible.builtin.copy:
     src: files/nagios/cgi.cfg
     dest: /etc/nagios4/cgi.cfg
-  mode: "0644"
+    mode: "0644"
 
 - name: Reload nagios
   ansible.builtin.service:

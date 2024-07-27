@@ -8,9 +8,8 @@
   ansible.builtin.shell:
     cmd: >-
       set -o pipefail
-      hostname | figlet -f /usr/share/figlet/smslant.flf"
-    args:
-      executable: /bin/bash
+      hostname | figlet -f /usr/share/figlet/smslant.flf
+    executable: /bin/bash
   register: _motd
   changed_when: true
 
