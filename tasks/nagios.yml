@@ -1,6 +1,6 @@
 ---
 - name: Install nagios
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name:
       - nagios4
       - git
@@ -75,6 +75,7 @@
   ansible.builtin.service:
     name: nagios4
     state: reloaded
+    enabled: true
 
 - name: Configure htaccess for the web interface
   ansible.builtin.template:
@@ -107,6 +108,7 @@
   ansible.builtin.service:
     name: apache2
     state: restarted
+    enabled: true
 
 - name: Allow HTTP from vpn
   ansible.builtin.iptables:
