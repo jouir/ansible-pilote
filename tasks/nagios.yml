@@ -56,7 +56,7 @@
 
 - name: Clone nagios-plugin-bacula source code
   ansible.builtin.git:
-    repo: https://github.com/twpayne/nagios-plugin-bacula.git
+    repo: https://github.com/jouir/nagios-plugin-bacula.git
     dest: /opt/nagios-plugin-bacula
 
 - name: Copy global configuration
