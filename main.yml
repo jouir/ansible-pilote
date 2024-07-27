@@ -24,6 +24,9 @@
     - name: Configure time
       ansible.builtin.include_tasks: tasks/time.yml
 
+    - name: Configure iptables
+      ansible.builtin.include_tasks: tasks/iptables.yml
+
     - name: Configure SSH
       ansible.builtin.include_tasks: tasks/ssh.yml
 
@@ -47,9 +50,6 @@
 
     - name: Configure bacula
       ansible.builtin.include_tasks: tasks/bacula.yml
-
-    - name: Configure iptables
-      ansible.builtin.include_tasks: tasks/iptables.yml
 
     - name: Configure vim
       ansible.builtin.include_tasks: tasks/vim.yml

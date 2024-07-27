@@ -1,22 +1,23 @@
 ---
 - name: Install packages
-  ansible.builtin.apt:
-    name:
-      - mosquitto
+  ansible.builtin.package:
+    name: mosquitto
 
-- name: Configure mosquitto
-  ansible.builtin.copy:
-    src: files/mosquitto/conf.d
-    dest: /etc/mosquitto
+- name: Deploy general configuration
+  ansible.builtin.template:
+    src: mosquitto/default.conf.j2
+    dest: /etc/mosquitto/conf.d/default.conf
     mode: "0644"
+    owner: root
+    group: root
 
 - name: Copy mosquitto password
   ansible.builtin.template:
     src: mosquitto/passwd.j2
     dest: /etc/mosquitto/passwd
-    mode: '0600'
+    mode: '0640'
     owner: root
-    group: root
+    group: mosquitto
 
 - name: Restart mosquitto
   ansible.builtin.service:

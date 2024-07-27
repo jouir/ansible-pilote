@@ -349,8 +349,6 @@ List of Nagios commands.
 
 ```yaml
 nagios_commands:
-  - command_name: check_nrpe_nossl
-    command_line: /usr/lib/nagios/plugins/check_nrpe -2 -H '$HOSTADDRESS$' -c '$ARG1$' -n
   - command_name: check_https_vhost_certificate
     command_line: /usr/lib/nagios/plugins/check_http --ssl --sni -I '$HOSTADDRESS$' -H '$ARG1$' -C '$ARG2$'
 ```

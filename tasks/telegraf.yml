@@ -7,7 +7,7 @@
 
 - name: Download influxdata APT key
   ansible.builtin.apt_key:
-    url: https://repos.influxdata.com/influxdb.key
+    url: https://repos.influxdata.com/influxdata-archive_compat.key
     state: present
 
 - name: Install telegraf and dependencies

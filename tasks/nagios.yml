@@ -8,7 +8,7 @@
       - python3-jinja2
       - python3-requests
       - python3-jsonschema
-      - python-pexpect
+      - python3-pexpect
 
 - name: Generate nagios configurations
   ansible.builtin.template:
@@ -100,6 +100,7 @@
   loop:
     - auth_digest
     - headers
+    - cgi
   changed_when: true
 
 - name: Restart apache

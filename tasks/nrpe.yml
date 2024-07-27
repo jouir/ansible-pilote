@@ -50,7 +50,7 @@
 - name: Install check_ovhcloud dependencies
   ansible.builtin.pip:
     requirements: /opt/check_ovhcloud/requirements.txt
-    extra_args: "--user"
+    extra_args: "--user --break-system-packages"
   become: true
   become_user: nagios
 

@@ -1,4 +1,9 @@
 ---
+- name: Install iptables
+  ansible.builtin.package:
+    name: iptables
+    state: present
+
 - name: Allow related and established connections
   ansible.builtin.iptables:
     chain: INPUT
